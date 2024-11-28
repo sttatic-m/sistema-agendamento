@@ -1,7 +1,15 @@
+using Microsoft.EntityFrameworkCore;
+using sistema_agendamento.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
+var connecitonString = builder.Configuration.GetConnectionString("DefaultConnection");
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Injeção de Dependecia com MySQL
+var serverVersion = new MySqlServerVersion(new Version(1, 0, 1));
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(connecitonString, serverVersion));
 
 var app = builder.Build();
 
